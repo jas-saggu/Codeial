@@ -1,5 +1,7 @@
 module.exports.profile=function(req,res){
-    return res.end('<p> Profile </p>');
+   return res.render('userpage',{
+        title:'page'
+   });
 };
 
 module.exports.messages=function(req,res){
