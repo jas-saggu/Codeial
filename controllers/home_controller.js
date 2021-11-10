@@ -1,9 +1,23 @@
+const Post=require('../models/post');
+
 module.exports.home=function(req,res){
-    return res.render('home',{
-       title:"home" 
+
+    // Post.find({},function(err,posts){
+
+    //     if(err){console.log("error in showing posts "); return;}
+    //     return res.render('home',{
+    //         title:"home" ,
+    //         posts: posts
+    //     });
+    // });
+
+    //populate the user of each post
+    Post.find({}).populate('user').exec(function(err,posts){
+
+        if(err){console.log("error in showing posts "); return;}
+        return res.render('home',{
+            title:"home" ,
+            posts: posts
+        });
     });
 };  
-
-module.exports.welcome=function(req,res){
-    return res.end('<h1>Welcome Page</h1>');
-}
