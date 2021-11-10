@@ -1,0 +1,32 @@
+.horizontal-align{
+    display: flex;
+    align-items: center;
+}
+footer{
+    justify-content: space-between;
+    height: 3rem;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    margin: 0;
+    padding-bottom: 5;
+    font-size: 1.1rem;
+    background-color: rgb(117,116,118);
+
+    #footer-box{
+        padding: 0.5rem;
+        color: white;
+        letter-spacing: 0.5px;
+    }
+    #footer-nav{
+        li{
+            list-style-type: none;
+            a{
+                text-decoration: none;
+                color: white;
+                padding: 0.5rem;
+                font-size: 1.1rem;
+            }
+        }
+    }
+}
