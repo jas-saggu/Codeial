@@ -1,30 +1,30 @@
 const Post=require('../models/post');
+const User=require('../models/user');
 
-module.exports.home=function(req,res){
+module.exports.home=async function(req,res){
+  
+    try{
+        //populate the user of each post
+        let posts=await Post.find({})
+        .populate('user')
+        .populate({
+            path:'comments',
+            populate:{
+                path:'user'
+            }
+        });
+    
+        let users=await User.find({});
 
-    // Post.find({},function(err,posts){
-
-    //     if(err){console.log("error in showing posts "); return;}
-    //     return res.render('home',{
-    //         title:"home" ,
-    //         posts: posts
-    //     });
-    // });
-
-    //populate the user of each post
-    Post.find({})
-    .populate('user')
-    .populate({
-        path:'comments',
-        populate:{
-            path:'user'
-        }
-    })
-    .exec(function(err,posts){
-        if(err){console.log("error in showing posts "); return;}
         return res.render('home',{
             title:"home" ,
-            posts: posts
+            posts: posts,
+            all_users : users
         });
-    });
+        
+    }catch(err){
+        console.log('Error in loading home :',err);
+        return;
+    }
+            
 };  

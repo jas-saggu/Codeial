@@ -1,10 +1,25 @@
 const User=require('../models/user');
 
 module.exports.profile=function(req,res){
-    return res.render('user_profile',{
-        title:'Profile'
-    });
+    User.findById(req.params.id,function(err,user){
+        return res.render('user_profile',{
+            title:'Profile',
+            profile_user: user
+        });
+    })
 };
+
+module.exports.update=function(req,res){
+    // req.user.id is the user who is logged in
+    // req.params.id is the user who is trying to update
+    if(req.user.id==req.params.id){
+        User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
+            return res.redirect('back');
+        });
+    }else{
+        return res.status(401).send('Unauthorised');
+    }
+}
 
 module.exports.signIn=function(req,res){
 
