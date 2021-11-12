@@ -11,6 +11,13 @@
     <body>
         <%- include("_header"); %>
 
+        <!-- if there is a success and if there is a message for that -->
+        <% if(flash.success && flash.success.length>0){ %>
+            <h5>
+                <%= flash.success %>
+            </h5>
+        <%}%>    
+
         <main>
             <%- body %>
         </main>
