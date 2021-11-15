@@ -5,5 +5,7 @@ module.exports.setFlash=function(req,res,next){
         'success': req.flash('success'),
         'error': req.flash('error')
     }
+
+    // so that it moves to next func which needs to be executed
     next();
 }

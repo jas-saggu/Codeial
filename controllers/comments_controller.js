@@ -18,11 +18,13 @@ module.exports.create=async function(req,res){
                 post.comments.push(comment);
                 // save this data
                 post.save();
+
+                req.flash('success','Comment added');
                 res.redirect('/');
             }
     }catch(err){
-        console.log("error : ",err);
-        return
+        req.flash('error',err);
+        return;
     }
 }
 
@@ -33,13 +35,15 @@ module.exports.destroy=async function(req,res){
             let postId=comment.post;
             comment.remove();
 
-            let post=await Post.findByIdAndUpdate(postId,{ $pull:{comments : req.params.id} })
+            let post=await Post.findByIdAndUpdate(postId,{ $pull:{comments : req.params.id} });
+            req.flash('success','Comment Deleted');
             return res.redirect('back');
         }else{
+            req.flash('error','Comment cannot be added');
             return res.redirect('back');
         }
     }catch(err){
-        console.log("error : ",err);
+        req.flash('error',err);
         return
     }
 }

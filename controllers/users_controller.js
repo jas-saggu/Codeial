@@ -14,9 +14,11 @@ module.exports.update=function(req,res){
     // req.params.id is the user who is trying to update
     if(req.user.id==req.params.id){
         User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
+            req.flash('success','Profile Updated');
             return res.redirect('back');
         });
     }else{
+        req.flash('error','You cannot update this profile');
         return res.status(401).send('Unauthorised');
     }
 }
