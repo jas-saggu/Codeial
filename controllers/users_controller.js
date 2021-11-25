@@ -9,14 +9,45 @@ module.exports.profile=function(req,res){
     })
 };
 
-module.exports.update=function(req,res){
+module.exports.update=async function(req,res){
     // req.user.id is the user who is logged in
     // req.params.id is the user who is trying to update
+
+    // if(req.user.id==req.params.id){
+    //     User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
+    //         req.flash('success','Profile Updated');
+    //         return res.redirect('back');
+    //     });
+    // }else{
+    //     req.flash('error','You cannot update this profile');
+    //     return res.status(401).send('Unauthorised');
+    // }
+
     if(req.user.id==req.params.id){
-        User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
-            req.flash('success','Profile Updated');
+        try{
+            let user = await User.findById(req.params.id);
+            User.uploadedAvatar(req,res,function(err){
+                if(err){
+                    console.log('*** Multer Error : ',err);
+                }
+                user.name=req.body.name;
+                user.email=req.body.email;
+
+                // if uploading avatar
+                if(req.file){
+                    // this is saving the path of the uploaded file into the avatar field in user
+                    //User.avatarPath= AVATARPATH which is in user.js made available to all + / +filename  
+                    user.avatar= User.avatarPath+'/'+req.file.filename;
+                }
+                user.save();
+                return res.redirect('back');
+            });
+
+        }catch(err){
+            req.flash('error',err);
             return res.redirect('back');
-        });
+        }
+
     }else{
         req.flash('error','You cannot update this profile');
         return res.status(401).send('Unauthorised');
