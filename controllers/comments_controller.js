@@ -14,10 +14,20 @@ module.exports.create=async function(req,res){
                     post: req.body.post,
                     user: req.user._id
                 });
+                
+                if(req.xhr){
+                    return res.status(200).json({
+                        data:{
+                            comment:comment
+                        },
+                        message:'comment created!'
+                    })
+                }
                 // also add this comment into the schema of that post for easy access to all comments of a post
                 post.comments.push(comment);
                 // save this data
                 post.save();
+                
 
                 req.flash('success','Comment added');
                 res.redirect('/');
