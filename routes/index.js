@@ -10,4 +10,8 @@ router.use('/users',require('./users'));
 router.use('/posts',require('./posts'));
 router.use('/comments',require('./comments'));
 
+//route index for all api
+
+router.use('/api',require('./api'));
+
 module.exports=router;

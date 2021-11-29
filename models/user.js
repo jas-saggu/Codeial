@@ -24,6 +24,7 @@ const userSchema= new mongoose.Schema({
     timestamps:true
 });
 
+// locally store only the url of avatar in DB
 let storage = multer.diskStorage({
     // req, file from the req, cb:callback fnc
     destination: function (req, file, cb) {

@@ -1,4 +1,6 @@
 const User=require('../models/user');
+const fs=require('fs');
+const path=require('path');
 
 module.exports.profile=function(req,res){
     User.findById(req.params.id,function(err,user){
@@ -26,6 +28,7 @@ module.exports.update=async function(req,res){
     if(req.user.id==req.params.id){
         try{
             let user = await User.findById(req.params.id);
+            // static func we created, to fetch data from Multipart form
             User.uploadedAvatar(req,res,function(err){
                 if(err){
                     console.log('*** Multer Error : ',err);
@@ -35,6 +38,14 @@ module.exports.update=async function(req,res){
 
                 // if uploading avatar
                 if(req.file){
+                    // edge case: if there is already avatar then remove older and add new
+                    let oldAvatar=path.join(__dirname , '..' , user.avatar); // place where oldAvatar is present
+                    // user.avatar to check if user already has an avatar and fs.existSync to check if there is a url in DB stored for avatar in user 
+                    if(user.avatar && fs.existsSync(oldAvatar)){
+                        //1.delete earlier
+                        fs.unlinkSync(oldAvatar)
+                    }
+                    //2.update new
                     // this is saving the path of the uploaded file into the avatar field in user
                     //User.avatarPath= AVATARPATH which is in user.js made available to all + / +filename  
                     user.avatar= User.avatarPath+'/'+req.file.filename;

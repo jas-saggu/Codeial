@@ -85,8 +85,8 @@
 
 // }
 
-   createPost();
-}
+//    createPost();
+// }
 
 {   
     // method to submit the form data for new post using AJAX
