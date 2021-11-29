@@ -25,6 +25,8 @@ app.use(cookieParser());
 
 app.use(express.static('./assets'));
 
+// make the uploads path available to browser
+app.use('/uploads',express.static(__dirname + '/uploads'));
 // use express layouts(declare it before routes)
 app.use(expressLayouts);
 
@@ -38,6 +40,7 @@ app.set('view engine','ejs');
 app.set('views','./views');
 
 // mongo store is used to store the session cookie in the db
+// if a uses is logged in, he should be logged in even after server is restarted
 app.use(session({
     name:'codeial',
     secret:'blahsomething',
