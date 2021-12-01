@@ -50,7 +50,6 @@ class PostComments{
         this.newCommentForm.submit(function(e){
             e.preventDefault();
             let self = this;
-
             $.ajax({
                 type: 'post',
                 url: '/comments/create',
