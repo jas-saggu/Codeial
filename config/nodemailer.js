@@ -21,7 +21,7 @@ let renderTemplate=(data,relativePath)=>{
         path.join(__dirname, '../views/mailers',relativePath),// relativePath from where this funciton is being called
         data,//context which is to be passed
         function(err,template){
-            if(err){console.log('error in rendering template '); return;}
+            if(err){console.log('error in rendering template ',err); return;}
             mailHTML=template;
         }
     )

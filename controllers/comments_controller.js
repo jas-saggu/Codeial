@@ -21,6 +21,7 @@ module.exports.create=async function(req,res){
                  // save this data
                  post.save();
                 comment = await comment.populate('user','name email');
+                // call maller func to send mail
                  commentMailer.newComment(comment);
                 if(req.xhr){
                     return res.status(200).json({
