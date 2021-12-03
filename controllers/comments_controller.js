@@ -1,5 +1,6 @@
 const Comment = require('../models/comment');
 const Post=require('../models/post');
+const Like=require('../models/like');
 const commentMailer=require('../mailers/comments_mailer');
 const queue=require('../config/kue');
 const commentEmailerWorker = require('../workers/comment_email_worker');
@@ -58,6 +59,9 @@ module.exports.destroy=async function(req,res){
     try{
         let comment=await Comment.findById(req.params.id)
         if(comment.user==req.user.id){
+
+            await Like.deleteMany({likeable:comment_id , onModel:'Comment'});
+
             let postId=comment.post;
             comment.remove();
 

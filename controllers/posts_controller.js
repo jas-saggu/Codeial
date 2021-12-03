@@ -1,5 +1,7 @@
 const Post=require('../models/post');
 const Comment=require('../models/comment')
+const Like=require('../models/like')
+
 
 module.exports.create=async function(req,res){
 
@@ -37,6 +39,13 @@ module.exports.destroy=async function(req,res){
         // req.user.id has the id of user who is trying to delete
         // .id & id is different as id returns a string
         if(post.user == req.user.id){
+
+            // deleted the associated likes for post and all its comments like too
+            await Like.deleteMany({likeable: post,onModel:'Post'});
+            // _id will have id of all comments of this post , $in will return array of values of comments of this post
+            await Like.deleteMany({_id:{$in: post.comments}});
+
+
             post.remove();
             await Comment.deleteMany({post: req.params.id})
 
