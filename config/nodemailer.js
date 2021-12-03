@@ -14,7 +14,7 @@ let transporter= nodemailer.createTransport({
     }
 });
 
-//define that we will use templates and ejs8
+//define that we will use templates and ejs
 let renderTemplate=(data,relativePath)=>{
     let mailHTML;
     ejs.renderFile(
