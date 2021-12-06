@@ -2,13 +2,18 @@ const User=require('../models/user');
 const fs=require('fs');
 const path=require('path');
 
-module.exports.profile=function(req,res){
-    User.findById(req.params.id,function(err,user){
-        return res.render('user_profile',{
-            title:'Profile',
-            profile_user: user
-        });
-    })
+module.exports.profile=async function(req,res){
+
+    let user=await User.findById(req.params.id);
+    let friends=user.listOfFriends;
+    console.log('#######');
+    console.log(friends);
+
+    return res.render('user_profile',{
+        title:'Profile',
+        profile_user: user,
+        friends:friends
+    });
 };
 
 module.exports.update=async function(req,res){
@@ -39,11 +44,14 @@ module.exports.update=async function(req,res){
                 // if uploading avatar
                 if(req.file){
                     // edge case: if there is already avatar then remove older and add new
-                    let oldAvatar=path.join(__dirname , '..' , user.avatar); // place where oldAvatar is present
                     // user.avatar to check if user already has an avatar and fs.existSync to check if there is a url in DB stored for avatar in user 
-                    if(user.avatar && fs.existsSync(oldAvatar)){
-                        //1.delete earlier
-                        fs.unlinkSync(oldAvatar)
+                    if(user.avatar){
+                        let oldAvatar=path.join(__dirname , '..' , user.avatar); // place where oldAvatar is present
+                        if(fs.existsSync(oldAvatar))
+                        {
+                            //1.delete earlier
+                            fs.unlinkSync(oldAvatar)
+                        }
                     }
                     //2.update new
                     // this is saving the path of the uploaded file into the avatar field in user

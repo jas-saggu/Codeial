@@ -3,24 +3,50 @@
   
 </style>
 
-<!-- display avatar -->
-<img src="<%= user.avatar %>" alt="<%= user.name %>" width="100">
+<main>
+    <section id='user-details'>
+      <!-- display avatar -->
+    <img src="<%= profile_user.avatar %>" alt="<%= profile_user.name %>" width="100">
 
-<% if(user.id==profile_user.id) {%>
-  <!-- if user matches then show the form -->
-    <form runat="server" action="/users/update/<%= profile_user.id %>" enctype="multipart/form-data" method="post">
-      <input type="text" name="name" placeholder="Your Name " value="<%= profile_user.name %>" required>
-      <input type="email" name="email" placeholder="Your Email " value="<%= profile_user.email %>" required>
-      <input  onclick="showPreview(event);" accept="image/*" id="avatarImage" type="file" name="avatar" placeholder="Profile Picture" >
-      <input type="submit" value="Update">
-    </form>
-    <div class="preview">
-      <img id="file-ip-1-preview">
-    </div>
-  <%} else {%>
-    <!-- else show only profile info -->
-    <p> <%= profile_user.name %> </p>
-    <p> <%= profile_user.email %> </p>
-<%}%>
+    <% if(user.id==profile_user.id) {%>
+      <!-- if user matches then show the form -->
+        <form runat="server" action="/users/update/<%= profile_user.id %>" enctype="multipart/form-data" method="post">
+          <input type="text" name="name" placeholder="Your Name " value="<%= profile_user.name %>" required>
+          <input type="email" name="email" placeholder="Your Email " value="<%= profile_user.email %>" required>
+          <input  onchange="showPreview(event);" accept="image/*" id="avatarImage" type="file" name="avatar" placeholder="Profile Picture" >
+          <input type="submit" value="Update">
+        </form>
+        <div class="preview">
+          <img id="file-ip-1-preview">
+        </div>
+      <%} else {%>
+        <!-- else show only profile info -->
+        <p> <%= profile_user.name %> </p>
+        <p> <%= profile_user.email %> </p>
 
+    <%}%>
+
+    <% if(locals.user) {%>
+      <% if(user.id != profile_user.id) {%>
+        <a class="toggle-friend-button"  href="/friends/toggle/?from_id=<%= user.id %>&to_id=<%= profile_user.id %>">
+          Add/Remove Friend
+        </a>
+      <%}%> 
+    <%}%>
+    </section>
+
+    <section id="friends-list">
+    <% if(user.id==profile_user.id) {%>
+      <div>
+          <h4>Friends </h4>
+          <% for(u of friends) {%>
+              <p> 
+                  <%= u %>
+              </p>
+          <%}%>   
+      </div>
+    <%}%>
+    </section>
+
+  </main>
 <script src="/js/user_profile.js"></script>

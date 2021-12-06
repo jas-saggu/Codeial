@@ -1,2 +1,16 @@
 body {
   background-color: lightblue; }
+main{
+  width: 100%;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+main img{
+  margin-bottom: 0.5rem;
+}
+main #friends-list{
+  border-left: 1px solid whitesmoke;
+  width: 25%;
+  padding: 1rem;
+}
