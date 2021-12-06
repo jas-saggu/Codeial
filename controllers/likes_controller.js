@@ -29,7 +29,7 @@ module.exports.toggleLike=async function(req,res){
             // delete from likes array in likable(post/comment)
             likeable.likes.pull(existingLike._id);
             likeable.save();
-
+            //delete from Like
             existingLike.remove()
             deleted=true;
         }else{
