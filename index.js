@@ -1,4 +1,5 @@
 const express = require('express');
+const env=require('./config/environment');
 const cookieParser=require('cookie-parser');
 const app=express();
 const port=8000;
@@ -21,9 +22,11 @@ const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
 chatServer.listen(5000);
 console.log('Chat server is listening on port 5000');
 
+const path=require('path');
+
 app.use(sassMiddleware({
-    src:'./assets/scss',
-    dest:'./assets/css',
+    src:path.join(__dirname,env.asset_path,'scss'),//(./assests/scss)
+    dest:path.join(__dirname,env.asset_path,'css'),
     debug: true,
     outputStyle:'extented',
     prefix:'/css'
@@ -31,7 +34,7 @@ app.use(sassMiddleware({
 app.use(express.urlencoded());
 app.use(cookieParser());
 
-app.use(express.static('./assets'));
+app.use(express.static(env.asset_path));
 
 // make the uploads path available to browser
 app.use('/uploads',express.static(__dirname + '/uploads'));
@@ -51,7 +54,7 @@ app.set('views','./views');
 // if a uses is logged in, he should be logged in even after server is restarted
 app.use(session({
     name:'codeial',
-    secret:'blahsomething',
+    secret:env.session_cookie_key,
     // if user is not logged in, do i want to store extra data
     saveUninitialized:false,
     // if some sort of session data is stored, do i want to rewrite it?

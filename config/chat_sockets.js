@@ -1,5 +1,6 @@
 // observer/ server who will recieve the incoming connections from all the users(listners/subscribers)
 
+// emit -> sends request 
 //.on -> detects event sent by client
 module.exports.chatSockets =function(socketServer){
     let io = require("socket.io")(socketServer, {
@@ -17,7 +18,7 @@ module.exports.chatSockets =function(socketServer){
         })
 
         socket.on('join_room',function(data){
-            console.log('joining req rec : ',data);
+            console.log('joining request received : ',data);
             // data.chatroom is the name of chatroom( if it exist it joins the user, if it doesnt exist it creates)
             socket.join(data.chatroom);
 
@@ -25,8 +26,9 @@ module.exports.chatSockets =function(socketServer){
             io.in(data.chatroom).emit('user_joined',data);
 
         });
-
+        //on message received
         socket.on('send_message',function(data){
+            // send acknowledgment
             io.in(data.chatroom).emit('receive_message',data);
         })
     });
