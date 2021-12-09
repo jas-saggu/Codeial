@@ -1,0 +1,33 @@
+/* Common Classes */
+.horizontal-align {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between; }
+
+/* header */
+#page-header {
+  background-color: #2386f6;
+  height: 3rem;
+  width: 100%;
+  color: white;
+  font-family: sans-serif; }
+  #page-header #header-heading {
+    font-weight: bolder;
+    padding-left: 0.4rem; }
+  #page-header #header-list {
+    padding: 0;
+    margin: 0; }
+    #page-header #header-list li {
+      list-style: none;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem; }
+      #page-header #header-list li a {
+        text-decoration: none;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: bold; }
+        #page-header #header-list li a:hover {
+          color: rebeccapurple;
+          border-bottom: 1px solid rebeccapurple;
+          transition: all 0.5s; }
