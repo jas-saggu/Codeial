@@ -1,5 +1,6 @@
 const express = require('express');
 const env=require('./config/environment');
+const morgan=require('morgan');
 const cookieParser=require('cookie-parser');
 const app=express();
 const port=8000;
@@ -24,13 +25,17 @@ console.log('Chat server is listening on port 5000');
 
 const path=require('path');
 
-app.use(sassMiddleware({
-    src:path.join(__dirname,env.asset_path,'scss'),//(./assests/scss)
-    dest:path.join(__dirname,env.asset_path,'css'),
-    debug: true,
-    outputStyle:'extented',
-    prefix:'/css'
-}))
+if(env.name=='development')
+{
+    app.use(sassMiddleware({
+        src:path.join(__dirname,env.asset_path,'scss'),//(./assests/scss)
+        dest:path.join(__dirname,env.asset_path,'css'),
+        debug: true,
+        outputStyle:'extented',
+        prefix:'/css'
+    }));
+}
+
 app.use(express.urlencoded());
 app.use(cookieParser());
 
