@@ -1,6 +1,6 @@
 const express = require('express');
 const env=require('./config/environment');
-const morgan=require('morgan');
+const logger=require('morgan');
 const cookieParser=require('cookie-parser');
 const app=express();
 const port=8000;
@@ -38,13 +38,14 @@ if(env.name=='development')
 
 app.use(express.urlencoded());
 app.use(cookieParser());
-
-app.use(express.static(env.asset_path));
+app.use(express.static(`.${env.asset_path}`));
 
 // make the uploads path available to browser
 app.use('/uploads',express.static(__dirname + '/uploads'));
 // use express layouts(declare it before routes)
 app.use(expressLayouts);
+
+app.use(logger(env.morgan.mode,env.morgan.options));
 
 // extract styles and scripts from subpages to layouts
 app.set('layout extractStyles',true);
