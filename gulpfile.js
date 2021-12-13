@@ -5,9 +5,9 @@ const sass=require('gulp-sass')(require('sass'));
 const cssnano=require('gulp-cssnano');
 //gulp-rev-> rename the files with # along side
 const rev=require('gulp-rev');
-// minifies js file
-const uglify=require('gulp-uglify-es').default();
-//minifies images
+// // minifies js file
+const uglify=require('gulp-uglify-es').default;
+// //minifies images
 const imagemin=require('gulp-imagemin');
 const del=require('del');
 
@@ -66,7 +66,7 @@ gulp.task('clean:assets',function(done){
     done();
 });
 
-gulp.task('build',gulp.series('clean:assets','css','js','images'),function(done){
+gulp.task('build',gulp.series('clean:assets', 'css', 'js','images'),function(done){
     console.log('Building assets.....');
     done();
 })
