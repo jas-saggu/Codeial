@@ -3,7 +3,12 @@
 // emit -> sends request 
 //.on -> detects event sent by client
 module.exports.chatSockets =function(socketServer){
-    let io = require('socket.io')(socketServer);
+    let io = require("socket.io")(socketServer, {
+       cors: {
+         origin: "http://54.88.21.79:5000",
+         methods: ["GET", "POST"]
+       }
+     });
    
    io.sockets.on('connection',function(socket){
        console.log('new connection received',socket.id);
