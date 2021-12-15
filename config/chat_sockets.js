@@ -3,36 +3,34 @@
 // emit -> sends request 
 //.on -> detects event sent by client
 module.exports.chatSockets =function(socketServer){
-
     let io = require("socket.io")(socketServer, {
-        cors: {
-          origin: "http://3.95.30.226:5000",
-          methods: ["GET", "POST"]
-        }
-      });
+       cors: {
+         origin: "http://54.88.21.79:5000",
+         methods: ["GET", "POST"]
+       }
+     });
+   
+   io.sockets.on('connection',function(socket){
+       console.log('new connection received',socket.id);
 
-    
-    io.sockets.on('connection',function(socket){
-        console.log('new connection received',socket.id);
+       socket.on('disconnect',function(){
+           console.log('socket disconnected ');
+       })
 
-        socket.on('disconnect',function(){
-            console.log('socket disconnected ');
-        })
+       socket.on('join_room',function(data){
+           console.log('joining request received : ',data);
+           // data.chatroom is the name of chatroom( if it exist it joins the user, if it doesnt exist it creates)
+           socket.join(data.chatroom);
 
-        socket.on('join_room',function(data){
-            console.log('joining request received : ',data);
-            // data.chatroom is the name of chatroom( if it exist it joins the user, if it doesnt exist it creates)
-            socket.join(data.chatroom);
+           // sends a notification to all the other users in the room that a new user has joined the chatroom
+           io.in(data.chatroom).emit('user_joined',data);
 
-            // sends a notification to all the other users in the room that a new user has joined the chatroom
-            io.in(data.chatroom).emit('user_joined',data);
-
-        });
-        //on message received
-        socket.on('send_message',function(data){
-            // send acknowledgment
-            io.in(data.chatroom).emit('receive_message',data);
-        })
-    });
-    
+       });
+       //on message received
+       socket.on('send_message',function(data){
+           // send acknowledgment
+           io.in(data.chatroom).emit('receive_message',data);
+       })
+   });
+   
 };
