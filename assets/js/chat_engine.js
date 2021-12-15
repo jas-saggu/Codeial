@@ -5,7 +5,7 @@ class ChatEngine{
         this.userEmail=userEmail;
 
         //fires io.connection in chat_sockets(sends connection request)
-        this.socket=io('http://localhost:5000', {transports: ['websocket']});
+        this.socket=io('http://localhost:5000', {transports: ['websocket','polling','flashsocket'] });
         if(this.userEmail){
             this.connectionHandler();
         }
