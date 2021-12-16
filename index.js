@@ -40,7 +40,7 @@ if(env.name=='development')
 
 app.use(express.urlencoded({extended : false}));
 app.use(cookieParser());
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public/assets'));
 // app.use(express.static(`${env.asset_path}`));
 
 // make the uploads path available to browser
