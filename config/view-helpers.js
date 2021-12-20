@@ -4,6 +4,11 @@ const path=require('path');
 
 module.exports=(app)=>{
     app.locals.assetPath=function(filePath){
+
+        console.log('###################');
+        console.log(env.name);
+        console.log('###################');
+
         if(env.name=='development'){
             return filePath;
         }
